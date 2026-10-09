@@ -1,9 +1,11 @@
 generated\Proveedor.class
 org\educa\app\Activity1.class
+org\educa\dao\ProductoDAOImlp.class
 generated\ObjectFactory.class
 generated\Productos.class
 generated\Producto.class
 org\educa\app\Activity2.class
+org\educa\dao\ProductoDAO.class
 org\educa\service\ProductoService.class
 org\educa\entity\SummaryEntity.class
 org\educa\entity\ProductoEntity.class
