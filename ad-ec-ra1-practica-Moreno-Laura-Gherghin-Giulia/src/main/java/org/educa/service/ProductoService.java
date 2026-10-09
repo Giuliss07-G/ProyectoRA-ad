@@ -25,7 +25,30 @@ public class ProductoService {
         List<ProductoEntity> resultado = new ArrayList<>();
         BigDecimal cien=new BigDecimal(100);
 
-        return null;
+        for(Producto p: listaProductos){
+            ProductoEntity productoEntity=new ProductoEntity();
+
+            productoEntity.setProducto(p);
+
+
+            BigDecimal porcentaje= cien.subtract(p.getDescuento());
+            BigDecimal PrecioFinal=p.getPrecio().multiply(porcentaje);
+            BigDecimal coste=p.getCostes().getCostesEnvio().add(p.getCostes().getCostesAlmacenaje());
+            BigDecimal beneficio=PrecioFinal.subtract(coste);
+
+
+            ProductoEntity entity=new ProductoEntity();
+
+            entity.setProducto(p);
+            entity.setPrecioFinal(PrecioFinal);
+            entity.setCost(coste);
+            entity.setProfit(beneficio);
+
+            resultado.add(productoEntity);
+
+        }
+
+        return resultado;
     }
 
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
