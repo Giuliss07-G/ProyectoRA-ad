@@ -1,0 +1,110 @@
+Index: ad-ec-ra1-practica-Moreno-Laura-Gherghin-Giulia/src/main/java/org/educa/service/ProductoService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.educa.service;\r\n\r\nimport generated.Producto;\r\nimport generated.Productos;\r\nimport jakarta.xml.bind.JAXBException;\r\nimport org.educa.dao.ProductoDAO;\r\nimport org.educa.dao.ProductoDAOImlp;\r\nimport org.educa.entity.ProductoEntity;\r\n\r\nimport java.io.IOException;\r\nimport java.math.BigDecimal;\r\nimport java.text.ParseException;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class ProductoService {\r\n\r\n    ProductoDAO productoDAO=new ProductoDAOImlp();\r\n\r\n    public List<ProductoEntity> readFile(String fileXml) throws JAXBException {\r\n        //TODO: Implementar\r\n\r\n        Productos productos = productoDAO.getProductos(fileXml);\r\n        List<Producto> listaProductos = productos.getProducto();\r\n        List<ProductoEntity> resultado = new ArrayList<>();\r\n        BigDecimal cien=new BigDecimal(100);\r\n\r\n        for(Producto p: listaProductos){\r\n            ProductoEntity productoEntity=new ProductoEntity();\r\n\r\n            productoEntity.setProducto(p);\r\n\r\n\r\n            BigDecimal porcentaje= cien.subtract(p.getDescuento());\r\n            BigDecimal PrecioFinal=p.getPrecio().multiply(porcentaje);\r\n            BigDecimal coste=p.getCostes().getCostesEnvio().add(p.getCostes().getCostesAlmacenaje());\r\n            BigDecimal beneficio=PrecioFinal.subtract(coste);\r\n\r\n\r\n            ProductoEntity entity=new ProductoEntity();\r\n\r\n            entity.setProducto(p);\r\n            entity.setPrecioFinal(PrecioFinal);\r\n            entity.setCost(coste);\r\n            entity.setProfit(beneficio);\r\n\r\n            resultado.add(productoEntity);\r\n\r\n        }\r\n\r\n        return resultado;\r\n    }\r\n\r\n    public void exportSummary(String path, String fileXml) throws JAXBException, IOException {\r\n        //TODO: Implementar\r\n\r\n    }\r\n\r\n    public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {\r\n        //TODO: Implementar\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ad-ec-ra1-practica-Moreno-Laura-Gherghin-Giulia/src/main/java/org/educa/service/ProductoService.java b/ad-ec-ra1-practica-Moreno-Laura-Gherghin-Giulia/src/main/java/org/educa/service/ProductoService.java
+--- a/ad-ec-ra1-practica-Moreno-Laura-Gherghin-Giulia/src/main/java/org/educa/service/ProductoService.java	(revision aa5798575fd4592a4dd5eebe37a78e46fce56586)
++++ b/ad-ec-ra1-practica-Moreno-Laura-Gherghin-Giulia/src/main/java/org/educa/service/ProductoService.java	(date 1791638280554)
+@@ -7,6 +7,7 @@
+ import org.educa.dao.ProductoDAOImlp;
+ import org.educa.entity.ProductoEntity;
+ 
++import java.io.File;
+ import java.io.IOException;
+ import java.math.BigDecimal;
+ import java.text.ParseException;
+@@ -54,6 +55,13 @@
+     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
+         //TODO: Implementar
+ 
++        List<ProductoEntity> productos = readFile(fileXml);
++        File fich = new File(fileXml);
++
++        String nombreFich = fich.getName();
++        String nombreSinExtension = nombreFich.replace(".xml", "");
++        String fecha = nombreSinExtension.substring(nombreSinExtension.indexOf('_') + 1);
++
+     }
+ 
+     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"67512e29-5074-440c-a52a-6a0e2c1b85c1\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/vcs.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;Gemma-1&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\r\n  \"selectedUrlAndAccountId\": {\r\n    \"url\": \"https://github.com/Giuliss07-G/ProyectoRA-ad.git\",\r\n    \"accountId\": \"ff3a668f-ffb7-4071-bc55-265fb73240a2\"\r\n  }\r\n}]]></component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 2\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"3KTN2WYiboIaBizuyDV9TfgOXey\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"CodigoLaura\",\r\n    \"kotlin-language-version-configured\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"67512e29-5074-440c-a52a-6a0e2c1b85c1\" name=\"Changes\" comment=\"\" />\r\n      <created>1791577392792</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1791577392792</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision aa5798575fd4592a4dd5eebe37a78e46fce56586)
++++ b/.idea/workspace.xml	(date 1791638280627)
+@@ -4,8 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="67512e29-5074-440c-a52a-6a0e2c1b85c1" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++    <list default="true" id="67512e29-5074-440c-a52a-6a0e2c1b85c1" name="Changes" comment="Terminación del ProductoService, ya tiene los cálculos">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -15,7 +15,7 @@
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="main" />
++        <entry key="$PROJECT_DIR$" value="CodigoLaura" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+@@ -26,12 +26,12 @@
+     &quot;assignee&quot;: &quot;Gemma-1&quot;
+   }
+ }</component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "https://github.com/Giuliss07-G/ProyectoRA-ad.git",
+-    "accountId": "ff3a668f-ffb7-4071-bc55-265fb73240a2"
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/Giuliss07-G/ProyectoRA-ad.git&quot;,
++    &quot;accountId&quot;: &quot;ff3a668f-ffb7-4071-bc55-265fb73240a2&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 2
+ }</component>
+@@ -44,7 +44,7 @@
+   "keyToString": {
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "RunOnceActivity.git.unshallow": "true",
+-    "git-widget-placeholder": "CodigoLaura",
++    "git-widget-placeholder": "main",
+     "kotlin-language-version-configured": "true"
+   }
+ }]]></component>
+@@ -63,6 +63,19 @@
+       <option name="presentableId" value="Default" />
+       <updated>1791577392792</updated>
+     </task>
++    <task id="LOCAL-00001" summary="Terminación del ProductoService, ya tiene los cálculos">
++      <option name="closed" value="true" />
++      <created>1791584487020</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1791584487020</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="Terminación del ProductoService, ya tiene los cálculos" />
++    <option name="LAST_COMMIT_MESSAGE" value="Terminación del ProductoService, ya tiene los cálculos" />
++  </component>
+ </project>
+\ No newline at end of file
