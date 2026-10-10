@@ -18,6 +18,15 @@ public class ProductoService {
 
     ProductoDAO productoDAO=new ProductoDAOImlp();
 
+    /**
+     * Lee el XML del inventario y calcula, para cada producto, su precio final
+     * (precio con el descuento aplicado), su coste (envío + almacenaje) y su beneficio
+     * (precio final - coste).
+     *
+     * @param fileXml ruta del fichero XML con el inventario
+     * @return lista de productos con los cálculos ya realizados
+     * @throws JAXBException si el XML no se puede leer o no cumple el esquema
+     */
     public List<ProductoEntity> readFile(String fileXml) throws JAXBException {
         //TODO: Implementar
 
@@ -48,6 +57,16 @@ public class ProductoService {
         return resultado;
     }
 
+    /**
+     * Genera un fichero de texto con el resumen del inventario: fecha, número de
+     * productos, beneficio total y datos del fichero XML (ruta, nombre y tamaño).
+     * Se guarda como {@code result_<mesAño>.txt}, por ejemplo {@code result_junio2026.txt}.
+     *
+     * @param path    carpeta donde se guardará el resumen
+     * @param fileXml ruta del fichero XML del inventario
+     * @throws JAXBException si el XML no se puede leer
+     * @throws IOException   si no se puede escribir el fichero de salida
+     */
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
         //TODO: Implementar
 
