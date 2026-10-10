@@ -27,10 +27,6 @@ public class ProductoService {
         BigDecimal cien=new BigDecimal(100);
 
         for(Producto p: listaProductos){
-            ProductoEntity productoEntity=new ProductoEntity();
-
-            productoEntity.setProducto(p);
-
 
             BigDecimal porcentaje= cien.subtract(p.getDescuento());
             BigDecimal PrecioFinal=p.getPrecio().multiply(porcentaje);
@@ -45,7 +41,7 @@ public class ProductoService {
             entity.setCost(coste);
             entity.setProfit(beneficio);
 
-            resultado.add(productoEntity);
+            resultado.add(entity);
 
         }
 
@@ -73,7 +69,7 @@ public class ProductoService {
         File archivo=new File(path, "result_"+ fecha + ".txt");
 
         try (FileWriter writer = new  FileWriter(archivo)) {
-            write.write(summary.toPrint());
+            writer.write(summary.toPrint());
         }
 
     }
