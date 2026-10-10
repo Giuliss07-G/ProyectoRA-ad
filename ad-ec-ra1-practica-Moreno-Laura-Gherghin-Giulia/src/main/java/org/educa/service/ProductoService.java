@@ -100,6 +100,19 @@ public class ProductoService {
 
     }
 
+    /**
+     * Genera un Excel con los productos del inventario: código, número de serie,
+     * precio, descuento, precio final, costes de envío, costes de almacenaje y beneficio.
+     * La cabecera va en negrita y las filas alternan color (verde/amarillo).
+     * Se guarda como {@code export_<mesAño>.xlsx}, por ejemplo {@code export_junio2026.xlsx}.
+     *
+     * @param path    carpeta donde se guardará el Excel (debe terminar en "/")
+     * @param fileXml ruta del fichero XML del inventario
+     * @throws JAXBException  si el XML no se puede leer
+     * @throws IOException    si no se puede crear la carpeta o escribir el fichero
+     * @throws ParseException declarada en la firma del servicio; no se lanza en esta implementación
+     */
+    
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
         //TODO: Implementar
         List<ProductoEntity> productos = readFile(fileXml);
