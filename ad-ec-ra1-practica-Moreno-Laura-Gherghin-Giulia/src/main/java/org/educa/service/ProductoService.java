@@ -76,5 +76,69 @@ public class ProductoService {
 
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
         //TODO: Implementar
+        List<ProductoEntity> productos = readFile(fileXml);
+        BigDecimal cien = new BigDecimal(100);
+
+        File fich = new File(fileXml);
+        String nombreSinExtension = fich.getName().replace(".xml", "");
+        String fecha = nombreSinExtension.substring(nombreSinExtension.indexOf('_') + 1);
+
+        Workbook libro = new XSSFWorkbook();
+        Sheet hoja = libro.createSheet("Productos");
+
+        Font negrita = libro.createFont();
+        negrita.setBold(true);
+
+
+        CellStyle estiloCabecera = libro.createCellStyle();
+        estiloCabecera.setFont(negrita);
+        estiloCabecera.setAlignment(HorizontalAlignment.CENTER);
+        estiloCabecera.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        estiloCabecera.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        CellStyle codigoVerde = libro.createCellStyle();
+        codigoVerde.setFont(negrita);
+        codigoVerde.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        codigoVerde.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        CellStyle textoVerde = libro.createCellStyle();
+        textoVerde.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        textoVerde.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        CellStyle eurosVerde = libro.createCellStyle();
+        eurosVerde.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        eurosVerde.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        eurosVerde.setAlignment(HorizontalAlignment.RIGHT);
+        eurosVerde.setDataFormat(libro.createDataFormat().getFormat("#,##0.00 \"€\""));
+
+        CellStyle porcentajeVerde = libro.createCellStyle();
+        porcentajeVerde.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        porcentajeVerde.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        porcentajeVerde.setAlignment(HorizontalAlignment.RIGHT);
+        porcentajeVerde.setDataFormat(libro.createDataFormat().getFormat("0.00%"));
+
+
+        CellStyle codigoAmarillo = libro.createCellStyle();
+        codigoAmarillo.setFont(negrita);
+        codigoAmarillo.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        codigoAmarillo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        CellStyle textoAmarillo = libro.createCellStyle();
+        textoAmarillo.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        textoAmarillo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        CellStyle eurosAmarillo = libro.createCellStyle();
+        eurosAmarillo.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        eurosAmarillo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        eurosAmarillo.setAlignment(HorizontalAlignment.RIGHT);
+        eurosAmarillo.setDataFormat(libro.createDataFormat().getFormat("#,##0.00 \"€\""));
+
+        CellStyle porcentajeAmarillo = libro.createCellStyle();
+        porcentajeAmarillo.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        porcentajeAmarillo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        porcentajeAmarillo.setAlignment(HorizontalAlignment.RIGHT);
+        porcentajeAmarillo.setDataFormat(libro.createDataFormat().getFormat("0.00%"));
+
+
     }
 }
