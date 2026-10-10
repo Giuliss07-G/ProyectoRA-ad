@@ -139,6 +139,82 @@ public class ProductoService {
         porcentajeAmarillo.setAlignment(HorizontalAlignment.RIGHT);
         porcentajeAmarillo.setDataFormat(libro.createDataFormat().getFormat("0.00%"));
 
+        String[] titulos = {"Codigo", "Número de Serie", "Precio", "Descuento",
+                "Precio Final", "Costes Envío", "Costes Almacenaje", "Beneficio"};
+        Row cabecera = hoja.createRow(0);
+        for (int i = 0; i < titulos.length; i++) {
+            Cell celda = cabecera.createCell(i);
+            celda.setCellValue(titulos[i]);
+            celda.setCellStyle(estiloCabecera);
+        }
+
+        for (int i = 0; i < productos.size(); i++) {
+            ProductoEntity entity = productos.get(i);
+            Producto p = entity.getProducto();
+            Row fila = hoja.createRow(i + 1);
+
+            CellStyle estiloCodigo;
+            CellStyle estiloTexto;
+            CellStyle estiloEuros;
+            CellStyle estiloPorcentaje;
+            if (i % 2 == 0) {
+                estiloCodigo = codigoVerde;
+                estiloTexto = textoVerde;
+                estiloEuros = eurosVerde;
+                estiloPorcentaje = porcentajeVerde;
+            } else {
+                estiloCodigo = codigoAmarillo;
+                estiloTexto = textoAmarillo;
+                estiloEuros = eurosAmarillo;
+                estiloPorcentaje = porcentajeAmarillo;
+            }
+
+            Cell celda0 = fila.createCell(0);
+            celda0.setCellValue(p.getCodigo());
+            celda0.setCellStyle(estiloCodigo);
+
+            Cell celda1 = fila.createCell(1);
+            celda1.setCellValue(p.getNumeroSerie());
+            celda1.setCellStyle(estiloTexto);
+
+            Cell celda2 = fila.createCell(2);
+            celda2.setCellValue(p.getPrecio().doubleValue());
+            celda2.setCellStyle(estiloEuros);
+
+            Cell celda3 = fila.createCell(3);
+            celda3.setCellValue(p.getDescuento().divide(cien).doubleValue());
+            celda3.setCellStyle(estiloPorcentaje);
+
+            Cell celda4 = fila.createCell(4);
+            celda4.setCellValue(entity.getPrecioFinal().doubleValue());
+            celda4.setCellStyle(estiloEuros);
+
+            Cell celda5 = fila.createCell(5);
+            celda5.setCellValue(p.getCostes().getCostesEnvio().doubleValue());
+            celda5.setCellStyle(estiloEuros);
+
+            Cell celda6 = fila.createCell(6);
+            celda6.setCellValue(p.getCostes().getCostesAlmacenaje().doubleValue());
+            celda6.setCellStyle(estiloEuros);
+
+            Cell celda7 = fila.createCell(7);
+            celda7.setCellValue(entity.getProfit().doubleValue());
+            celda7.setCellStyle(estiloEuros);
+        }
+
+        for (int i = 0; i < titulos.length; i++) {
+            hoja.autoSizeColumn(i);
+        }
+
+        Files.createDirectories(Path.of(path));
+        FileOutputStream salida = new FileOutputStream(path + "export_" + fecha + ".xlsx");
+        libro.write(salida);
+        salida.close();
+        libro.close();
+    }
+
+}
+
 
     }
 }
