@@ -62,6 +62,20 @@ public class ProductoService {
         String nombreSinExtension = nombreFich.replace(".xml", "");
         String fecha = nombreSinExtension.substring(nombreSinExtension.indexOf('_') + 1);
 
+        BigDecimal beneficioTotal= new BigDecimal(0);
+        for(ProductoEntity producto: productos){
+            beneficioTotal=beneficioTotal.add(producto.getProfit());
+        }
+
+        SummaryEntity summary=new SummaryEntity(fecha, productos.size(), beneficioTotal,
+                fich.getAbsolutePath(), nombreSinExtension, fich.length());
+
+        File archivo=new File(path, "result_"+ fecha + ".txt");
+
+        try (FileWriter writer = new  FileWriter(archivo)) {
+            write.write(summary.toPrint());
+        }
+
     }
 
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
