@@ -7,6 +7,7 @@ import org.educa.dao.ProductoDAO;
 import org.educa.dao.ProductoDAOImlp;
 import org.educa.entity.ProductoEntity;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -30,6 +31,13 @@ public class ProductoService {
 
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
         //TODO: Implementar
+
+        List<ProductoEntity> productos = readFile(fileXml);
+        File fich = new File(fileXml);
+
+        String nombreFich = fich.getName();
+        String nombreSinExtension = nombreFich.replace(".xml", "");
+        String fecha = nombreSinExtension.substring(nombreSinExtension.indexOf('_') + 1);
 
     }
 
